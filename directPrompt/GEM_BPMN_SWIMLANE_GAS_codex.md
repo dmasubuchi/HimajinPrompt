@@ -68,6 +68,9 @@
   - 代替: スライド全面の矩形を追加→`getFill().setSolidFill(..)`→`setTransparent()`→`sendToBack()`
 - 直線の色設定は `line.getLineFill().setSolidFill(color)`、太さは `line.setWeight(n)` を用いる。
 - 上記に反するコードが生成された場合、返答前に自動で修正してから出力する。
+ - 矢印ヘッド設定は互換性に注意:
+   - 推奨: 矢印ヘッドの設定は省略（線のみ）。
+   - どうしても必要な場合は `try { line.setEndArrow(SlidesApp.ArrowStyle.STEALTH_ARROW); } catch (e) { /* omit */ }` のようにガードし、`.setEndArrowStyle(...)` は使用しない。
 
 ## 期待される出力の骨子（例）
 ```javascript
