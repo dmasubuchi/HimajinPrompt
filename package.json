@@ -1,0 +1,12 @@
+{
+  "name": "bpmn-test",
+  "version": "1.0.0",
+  "description": "BPMN Generator Test",
+  "main": "test-bpmn.js",
+  "scripts": {
+    "test": "node test-bpmn.js"
+  },
+  "dependencies": {
+    "playwright": "^1.55.1"
+  }
+}
