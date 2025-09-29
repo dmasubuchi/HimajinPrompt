@@ -97,14 +97,13 @@ function createBPMNPresentation(data) {
   const slides = presentation.getSlides();
   const titleSlide = slides[0];
 
-  // 背景色設定（別の方法）
+  // 背景色設定（固定サイズで安全に）
   try {
-    // 背景に矩形を追加して色を設定
+    // 背景に矩形を追加して色を設定（標準サイズ）
     const bgShape = titleSlide.insertShape(
       SlidesApp.ShapeType.RECTANGLE,
       0, 0,
-      titleSlide.getPageWidth(),
-      titleSlide.getPageHeight()
+      720, 405  // 標準のスライドサイズ
     );
     bgShape.getFill().setSolidFill(BPMN_CONFIG.COLORS.swimlane_header);
     bgShape.getBorder().setTransparent();
@@ -149,8 +148,9 @@ function createBPMNPresentation(data) {
 // BPMNダイアグラム描画
 // ========================================
 function drawBPMNDiagram(slide, data) {
-  const pageWidth = slide.getPageWidth();
-  const pageHeight = slide.getPageHeight();
+  // 標準スライドサイズを使用
+  const pageWidth = 720;   // 標準幅
+  const pageHeight = 405;  // 標準高さ
   const config = BPMN_CONFIG;
   const layout = config.LAYOUT;
 
