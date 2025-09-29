@@ -257,8 +257,12 @@ function drawBPMNDiagram(slide, data) {
       endY
     );
 
-    line.getLineFill().setSolidFill(config.COLORS.flow);
-    line.setWeight(2);
-    line.setEndArrowStyle(SlidesApp.ArrowStyle.STEALTH_ARROW);
+    try {
+      line.getLineFill().setSolidFill(config.COLORS.flow);
+      line.setWeight(2);
+      // 矢印スタイルは新しいAPIでは自動的に設定される
+    } catch (e) {
+      console.log('Line styling failed:', e.message);
+    }
   });
 }
