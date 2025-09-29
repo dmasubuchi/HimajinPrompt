@@ -97,10 +97,22 @@ function createBPMNPresentation(data) {
   const slides = presentation.getSlides();
   const titleSlide = slides[0];
 
-  // 背景色設定（エラー回避版）
-  const background = titleSlide.getBackground();
-  const fill = background.getSolidFill();
-  fill.getColor().setRgbColor(0, 172, 193);
+  // 背景色設定（別の方法）
+  try {
+    // 背景に矩形を追加して色を設定
+    const bgShape = titleSlide.insertShape(
+      SlidesApp.ShapeType.RECTANGLE,
+      0, 0,
+      titleSlide.getPageWidth(),
+      titleSlide.getPageHeight()
+    );
+    bgShape.getFill().setSolidFill(BPMN_CONFIG.COLORS.swimlane_header);
+    bgShape.getBorder().setTransparent();
+    bgShape.sendToBack();
+  } catch (e) {
+    // 背景設定に失敗した場合はスキップ
+    console.log('Background color setting failed:', e.message);
+  }
 
   // タイトルテキスト設定
   const shapes = titleSlide.getShapes();
