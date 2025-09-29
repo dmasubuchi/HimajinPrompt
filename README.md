@@ -10,46 +10,44 @@
 
 ## 🚀 セットアップ（5分）
 
-### 必要なファイル（2つだけ）
+### ステップ1: GASプロジェクト作成
+```
+Google Drive → 新規 → その他 → Google Apps Script
+```
 
-1. **Google Apps Scriptプロジェクトを作成**
-   ```
-   Google Drive → 新規 → その他 → Google Apps Script
-   ```
+### ステップ2: 必要な3ファイルをコピー
 
-2. **必要なファイルをコピー**
+| GAS内のファイル名 | 作成方法 | コピー元 |
+|------------------|---------|---------|
+| **コード.gs** | デフォルトで存在 | [`bpmn-swimlane.gs`](./bpmn-swimlane.gs)の全内容 |
+| **test-minimal** | ＋ → HTML | [`test-minimal.html`](./test-minimal.html)の全内容 |
+| **web-app** | ＋ → スクリプト | 下記のコードをコピー |
 
-   | ファイル | GAS内での作成方法 |
-   |---------|------------------|
-   | [`bpmn-swimlane.gs`](./bpmn-swimlane.gs) | コード.gsに全内容をコピー |
-   | [`test-minimal.html`](./test-minimal.html) | ＋ → HTML → ファイル名を`test-minimal`にして内容コピー |
+### ステップ3: web-app.gsの内容
+```javascript
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('test-minimal')
+    .setTitle('BPMN生成');
+}
 
-3. **エントリーポイントを追加**
+function generateBPMNPresentationFromWeb(jsonData) {
+  try {
+    return generateBPMNPresentation(jsonData);
+  } catch (error) {
+    return {success: false, error: error.toString()};
+  }
+}
+```
 
-   新しいスクリプトファイル（＋ → スクリプト）を作成して以下をコピー：
-   ```javascript
-   function doGet() {
-     return HtmlService.createHtmlOutputFromFile('test-minimal')
-       .setTitle('BPMN生成');
-   }
+### ステップ4: デプロイ
+```
+デプロイ → 新しいデプロイ → ウェブアプリ
+実行ユーザー：自分
+アクセス：全員
+```
 
-   function generateBPMNPresentationFromWeb(jsonData) {
-     try {
-       return generateBPMNPresentation(jsonData);
-     } catch (error) {
-       return {success: false, error: error.toString()};
-     }
-   }
-   ```
-
-4. **デプロイ**
-   ```
-   デプロイ → 新しいデプロイ → ウェブアプリ
-   実行ユーザー：自分
-   アクセス：全員
-   ```
-
-5. **URLにアクセス → JSONを貼り付けて「生成」ボタン**
+### ステップ5: 使う
+URLにアクセス → JSONを貼り付けて「生成」ボタン
 
 ---
 
