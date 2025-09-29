@@ -20,8 +20,8 @@ Google Drive → 新規 → その他 → Google Apps Script
 | GAS内のファイル名 | 作成方法 | コピー元 |
 |------------------|---------|---------|
 | **コード.gs** | デフォルトで存在 | [`bpmn-swimlane.gs`](./bpmn-swimlane.gs)の全内容 |
-| **test-minimal** | ＋ → HTML | [`test-minimal.html`](./test-minimal.html)の全内容 |
-| **web-app** | ＋ → スクリプト | 下記のコードをコピー |
+| **test-minimal.html** | ＋ → HTML → ファイル名を`test-minimal`に | [`test-minimal.html`](./test-minimal.html)の全内容 |
+| **web-app.gs** | ＋ → スクリプト → ファイル名を`web-app`に | 下記のコードをコピー |
 
 ### ステップ3: web-app.gsの内容
 ```javascript

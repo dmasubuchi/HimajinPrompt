@@ -8,6 +8,36 @@
  */
 
 // ========================================
+// テスト関数（GASエディタから実行用）
+// ========================================
+function myFunction() {
+  // テスト用のJSONデータ
+  const testData = {
+    processInfo: { name: "テストプロセス" },
+    actors: [
+      { id: "A1", name: "営業部" },
+      { id: "A2", name: "経理部" }
+    ],
+    tasks: [
+      { id: "T1", name: "見積書作成", actor: "A1" },
+      { id: "T2", name: "請求処理", actor: "A2" }
+    ],
+    flows: [
+      { from: "T1", to: "T2" }
+    ]
+  };
+
+  // BPMN生成実行
+  const result = generateBPMNPresentation(testData);
+
+  if (result.success) {
+    console.log("✅ 生成成功:", result.url);
+  } else {
+    console.log("❌ エラー:", result.error);
+  }
+}
+
+// ========================================
 // カラーパレット定義
 // ========================================
 const BPMN_COLORS = {
