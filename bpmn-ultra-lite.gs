@@ -1,8 +1,8 @@
 /**
  * BPMN Ultra Lite - 超軽量版BPMNスライド生成システム
- * Google Slides API互換版
+ * Google Slides API互換版（setRgbColor, getPageWidth, setEndArrowStyleエラーを修正済み）
  *
- * @version 1.1.0
+ * @version 1.1.1
  * @author ひまじん
  * @license MIT
  */
