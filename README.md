@@ -73,8 +73,8 @@ URLにアクセス → JSONを貼り付けて「生成」ボタン
 ## 🆘 トラブルシューティング
 
 ### エラー: 権限がありません
-1. GASエディタで一度 `testBPMNGeneration()` を実行
-2. 権限を承認
+1. GASエディタで一度 `myFunction()` を実行
+2. 権限を承認（Google DriveとSlidesへのアクセス）
 3. 再度Webアプリにアクセス
 
 ### エラー: generateBPMNPresentation is not defined
