@@ -56,6 +56,19 @@
 - 存在しない API を使わない（背景色は `setSolidFill` を使い、`getColor().setRgbColor` は使用しない）。
 - 機微情報を埋め込まない。入力データはログに直接残さない（要点のみ）。
 
+## 出力後の自己チェック（ポスト処理）
+- 段落整列APIの確認と修正:
+  - 誤: `.getParagraphStyle().setAlignment(...)`
+  - 正: `.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER)` 等
+- 枠線スタイル設定のチェーン禁止:
+  - 誤: `.getBorder().setWeight(1).setSolidFill('#e0e0e0')`
+  - 正: `.getBorder().setWeight(1); .getBorder().getLineFill().setSolidFill('#e0e0e0');`
+- 背景色の設定は以下のいずれかのみ:
+  - 推奨: `slide.getBackground().setSolidFill('#00acc1')`
+  - 代替: スライド全面の矩形を追加→`getFill().setSolidFill(..)`→`setTransparent()`→`sendToBack()`
+- 直線の色設定は `line.getLineFill().setSolidFill(color)`、太さは `line.setWeight(n)` を用いる。
+- 上記に反するコードが生成された場合、返答前に自動で修正してから出力する。
+
 ## 期待される出力の骨子（例）
 ```javascript
 // コード.gs
