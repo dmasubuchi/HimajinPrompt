@@ -9,8 +9,8 @@
 // Webアプリケーション表示
 // ========================================
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('simple-ui')
-    .setTitle('ひまじん式BPMN生成システム')
+  return HtmlService.createHtmlOutputFromFile('json-input')
+    .setTitle('ひまじん式BPMN - JSONで一発生成')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
