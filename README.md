@@ -40,35 +40,52 @@
 
 ## 📦 ファイル構成
 
+### 必須ファイル（GASにコピー）
+| ファイル | 説明 | GASでのファイル名 |
+|---------|------|-----------------|
+| [`bpmn-swimlane.gs`](./bpmn-swimlane.gs) | **メイン描画エンジン**<br>・横型/縦型スイムレーン描画<br>・BPMN要素（タスク、ゲートウェイ）<br>・JSONからスライド自動生成 | `コード.gs`または新規スクリプト |
+
+### オプションファイル（機能追加用）
+| ファイル | 説明 | 用途 |
+|---------|------|------|
+| [`bpmn-data-collection.gs`](./bpmn-data-collection.gs) | **Googleフォーム連携**<br>・3段階の情報収集（5分/30分/2時間）<br>・自動メール送信<br>・スプレッドシート記録 | フォーム使いたい場合 |
+| [`bpmn-gemini-dialogue.gs`](./bpmn-gemini-dialogue.gs) | **Gemini API連携**<br>・対話型ヒアリング<br>・自然言語→JSON変換<br>※APIキー必要 | API経由で自動化したい場合 |
+| [`index.html`](./index.html) | **WebアプリUI**<br>・チャット画面<br>・bpmn-gemini-dialogue.gsとセット | Webアプリとして公開する場合 |
+
+### ドキュメント（コピー不要）
 | ファイル | 説明 |
 |---------|------|
-| [`bpmn-swimlane.gs`](./bpmn-swimlane.gs) | メイン描画エンジン（横型・縦型スイムレーン） |
-| [`bpmn-data-collection.gs`](./bpmn-data-collection.gs) | Googleフォーム連携・段階的情報収集 |
-| [`BPMN_DIALOGUE_PROMPT.md`](./BPMN_DIALOGUE_PROMPT.md) | **AI対話用プロンプト（APIキー不要）** |
-| [`index.html`](./index.html) | Webアプリ用UI（オプション） |
+| [`BPMN_DIALOGUE_PROMPT.md`](./BPMN_DIALOGUE_PROMPT.md) | **AI対話用プロンプト**<br>・ChatGPT/Claude/Geminiにコピペして使用<br>・**APIキー不要でこれが一番簡単！** |
+| [`README.md`](./README.md) | このファイル（使い方ガイド） |
+| [`GITHUB_SETUP.md`](./GITHUB_SETUP.md) | GitHub連携手順 |
 
 ---
 
-## ⚡ クイックスタート（10分）
+## ⚡ クイックスタート（最短5分）
 
-### ステップ1：GASプロジェクト作成
+### 最小構成で始める（必須ファイル1つだけ！）
+
+#### ステップ1：GASプロジェクト作成
 ```
 Google Drive → 新規 → その他 → Google Apps Script
 ```
 
-### ステップ2：コードをコピー
-1. [`bpmn-swimlane.gs`](./bpmn-swimlane.gs)の内容をGASにコピー
-2. 保存（プロジェクト名：ひまじん式BPMN）
+#### ステップ2：メインコードをコピー
+1. [`bpmn-swimlane.gs`](./bpmn-swimlane.gs)の**全内容をコピー**
+2. GASの`コード.gs`に**全部貼り付け**
+3. **Ctrl+S**（Mac: Cmd+S）で保存
 
-### ステップ3：テスト実行
+#### ステップ3：テスト実行
 ```javascript
-testBPMNGeneration() // この関数を実行
+testBPMNGeneration() // 関数選択 → 実行ボタン
 ```
 
-### ステップ4：権限承認
-初回実行時に権限を許可
+#### ステップ4：権限承認
+1. 「権限を確認」→「詳細」
+2. 「安全ではないページに移動」
+3. 「許可」
 
-✅ **完了！** これで使えます
+✅ **完了！** スライドURLが表示されます
 
 ---
 
