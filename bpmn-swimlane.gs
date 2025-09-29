@@ -109,8 +109,9 @@ function generateBPMNPresentation(jsonData) {
 // ========================================
 function createTitleSlide(slide, data) {
   // 背景色設定
-  slide.getBackground().getSolidFill().getColor()
-    .setRgbColor(0, 172, 193); // #00acc1
+  const background = slide.getBackground();
+  const fill = background.getSolidFill();
+  fill.getColor().setRgbColor(0, 172, 193); // #00acc1
 
   // タイトル
   const title = slide.insertTextBox(
