@@ -8,38 +8,21 @@
 
 ---
 
-## 🚀 セットアップ（5分）
+## 🚀 セットアップ（3分）
 
 ### ステップ1: GASプロジェクト作成
 ```
 Google Drive → 新規 → その他 → Google Apps Script
 ```
 
-### ステップ2: 必要な3ファイルをコピー
+### ステップ2: 必要な2ファイルをコピー
 
 | GAS内のファイル名 | 作成方法 | コピー元 |
 |------------------|---------|---------|
-| **コード.gs** | デフォルトで存在 | [`bpmn-swimlane.gs`](./bpmn-swimlane.gs)の全内容 |
-| **test-minimal.html** | ＋ → HTML → ファイル名を`test-minimal`に | [`test-minimal.html`](./test-minimal.html)の全内容 |
-| **web-app.gs** | ＋ → スクリプト → ファイル名を`web-app`に | 下記のコードをコピー |
+| **コード.gs** | デフォルトで存在 | [`bpmn-ultra-lite.gs`](./bpmn-ultra-lite.gs)の全内容 |
+| **index.html** | ＋ → HTML → ファイル名を`index`に | [`index.html`](./index.html)の全内容 |
 
-### ステップ3: web-app.gsの内容
-```javascript
-function doGet() {
-  return HtmlService.createHtmlOutputFromFile('test-minimal')
-    .setTitle('BPMN生成');
-}
-
-function generateBPMNPresentationFromWeb(jsonData) {
-  try {
-    return generateBPMNPresentation(jsonData);
-  } catch (error) {
-    return {success: false, error: error.toString()};
-  }
-}
-```
-
-### ステップ4: 権限承認とデプロイ
+### ステップ3: 権限承認とデプロイ
 ```
 1. まず myFunction を実行して権限を承認
    実行 → myFunction → 実行 → 権限を確認
@@ -50,8 +33,8 @@ function generateBPMNPresentationFromWeb(jsonData) {
    アクセス：全員
 ```
 
-### ステップ5: 使う
-URLにアクセス → JSONを貼り付けて「生成」ボタン
+### ステップ4: 使う
+URLにアクセス → JSONを貼り付けて「BPMN生成」ボタン
 
 ---
 
@@ -86,16 +69,11 @@ GASエディタで直接実行：
 2. 権限を承認（Google DriveとSlidesへのアクセス）
 3. 再度Webアプリにアクセス
 
-### エラー: generateBPMNPresentation is not defined
-→ `bpmn-swimlane.gs`が正しくコード.gsにコピーされているか確認
+### エラー: generateBPMNFromWeb is not defined
+→ `bpmn-ultra-lite.gs`が正しくコード.gsにコピーされているか確認
 
-### エラー: setRgbColor is not a function
-→ 111行目付近を以下に修正：
-```javascript
-const background = slide.getBackground();
-const fill = background.getSolidFill();
-fill.getColor().setRgbColor(0, 172, 193);
-```
+### デプロイが遅い・エラーが出る場合
+→ 最新の超軽量版（2ファイル）を使用すれば高速デプロイ可能
 
 ---
 

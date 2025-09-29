@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BPMN Generator - ひまじん式</title>
+  <style>
+    /* まじん式風のスタイリング */
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #00acc1;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00acc1 0%, #00838f 100%);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 120px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,172,193,0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      min-height: 20px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .result-success {
+      background: #e8f5e8;
+      border: 1px solid #4caf50;
+      color: #2e7d32;
+    }
+
+    .result-error {
+      background: #ffebee;
+      border: 1px solid #f44336;
+      color: #c62828;
+    }
+
+    .result-processing {
+      background: #e3f2fd;
+      border: 1px solid #2196f3;
+      color: #1565c0;
+    }
+
+    a {
+      color: #00acc1;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .sample-hint {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 BPMN Generator</h1>
+    <p class="subtitle">ひまじん式 - JSONを貼り付けて業務フロー図を自動生成</p>
+
+    <div class="form-group">
+      <label for="json">📝 BPMN JSON データ</label>
+      <div class="sample-hint">業務フローのJSON形式データを入力してください</div>
+      <textarea id="json" placeholder="JSONデータを貼り付けてください...">{
+  "processInfo": {
+    "name": "受注処理フロー"
+  },
+  "actors": [
+    {
+      "id": "A1",
+      "name": "営業部"
+    },
+    {
+      "id": "A2",
+      "name": "倉庫"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T1",
+      "name": "受注確認",
+      "actor": "A1"
+    },
+    {
+      "id": "T2",
+      "name": "商品出荷",
+      "actor": "A2"
+    }
+  ],
+  "flows": [
+    {
+      "from": "T1",
+      "to": "T2"
+    }
+  ]
+}</textarea>
+    </div>
+
+    <div class="button-container">
+      <button onclick="generateSlides()" id="generateBtn">
+        ✨ BPMN生成
+      </button>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="footer">
+      Powered by Google Apps Script |
+      <a href="https://github.com/dmasubuchi/HimajinPrompt" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <script>
+    function generateSlides() {
+      const jsonText = document.getElementById('json').value;
+      const resultDiv = document.getElementById('result');
+      const generateBtn = document.getElementById('generateBtn');
+
+      // 入力チェック
+      if (!jsonText.trim()) {
+        showResult('JSONデータを入力してください', 'error');
+        return;
+      }
+
+      let jsonData;
+      try {
+        jsonData = JSON.parse(jsonText);
+      } catch (e) {
+        showResult('❌ JSONエラー: ' + e.message + '<br>形式を確認してください', 'error');
+        return;
+      }
+
+      // バリデーション
+      if (!jsonData.processInfo || !jsonData.actors || !jsonData.tasks) {
+        showResult('❌ 必須項目が不足しています: processInfo, actors, tasks', 'error');
+        return;
+      }
+
+      // ボタン無効化
+      generateBtn.disabled = true;
+      generateBtn.textContent = '生成中...';
+
+      showResult('🔄 BPMN生成中です...しばらくお待ちください', 'processing');
+
+      // GAS関数呼び出し
+      google.script.run
+        .withSuccessHandler(onSuccess)
+        .withFailureHandler(onError)
+        .generateBPMNFromWeb(jsonData);
+    }
+
+    function onSuccess(result) {
+      const generateBtn = document.getElementById('generateBtn');
+      generateBtn.disabled = false;
+      generateBtn.textContent = '✨ BPMN生成';
+
+      if (result.success) {
+        const message = `
+          ✅ <strong>生成成功！</strong><br>
+          ${result.message}<br><br>
+          📄 <a href="${result.url}" target="_blank">スライドを開く</a>
+        `;
+        showResult(message, 'success');
+      } else {
+        showResult('❌ エラー: ' + result.error, 'error');
+      }
+    }
+
+    function onError(error) {
+      const generateBtn = document.getElementById('generateBtn');
+      generateBtn.disabled = false;
+      generateBtn.textContent = '✨ BPMN生成';
+
+      showResult('❌ 通信エラー: ' + error.message + '<br>再試行してください', 'error');
+    }
+
+    function showResult(message, type) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = message;
+      resultDiv.className = 'result-' + type;
+      resultDiv.style.display = 'block';
+
+      // 成功時は少し待ってから薄くする
+      if (type === 'success') {
+        setTimeout(() => {
+          resultDiv.style.opacity = '0.8';
+        }, 3000);
+      }
+    }
+
+    // JSONのフォーマットを整える
+    function formatJSON() {
+      const textarea = document.getElementById('json');
+      try {
+        const json = JSON.parse(textarea.value);
+        textarea.value = JSON.stringify(json, null, 2);
+      } catch (e) {
+        // フォーマットエラーは無視
+      }
+    }
+
+    // Ctrl+Enter でも生成可能に
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        generateSlides();
+      }
+    });
+  </script>
+</body>
+</html>
