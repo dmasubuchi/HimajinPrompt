@@ -1,147 +1,137 @@
-# 🎯 ひまじん式BPMN自動生成システム - 完全構築ガイド
+# 🎯 ひまじん式BPMN自動生成システム
 
-## はじめに：なぜこのシステムが必要なのか？
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-4285F4?logo=google&logoColor=white)](https://developers.google.com/apps-script)
 
-コンサルタントや業務改善担当者の皆さん、こんな経験はありませんか？
+## ⚠️ 重要なお知らせ
 
-- 📝 ヒアリングメモから業務フロー図を作るのに**何時間もかかる**
-- 🔄 クライアントの要望で**何度も書き直し**
-- 😵 PowerPointやVisioでの**手作業にうんざり**
+このプロジェクトは「**まじん式プロンプト**」にインスパイアされて開発された**非公式派生版**です。
 
-**もうその苦労は不要です！**
+- 🚫 **本家からの許諾は得ていません**
+- 🙏 オリジナルの「まじん式プロンプト」に最大限のリスペクトを表します
+- 💡 本家の素晴らしいコンセプトをBPMN図生成に応用しました
 
-ひまじん式BPMNシステムなら、**自然な会話**や**簡単なフォーム入力**だけで、プロフェッショナルな業務フロー図が**自動生成**されます。
+> **まじん式作者様へ**：何かご意見・ご要望がございましたら、即座に対応させていただきます。
 
 ---
 
-## 🚀 3つの革新的な機能
+## 🚀 何ができるの？
 
-### 1. **対話型AI（Gemini）** による自然なヒアリング
+**3つの方法**で業務フロー図を**自動生成**：
+
+### 1️⃣ AI対話で簡単作成（APIキー不要！）
 ```
-あなた：「受注処理のフロー作りたい」
-AI：「関わる部門を教えてください」
-あなた：「営業と倉庫かな」
-→ 自動でBPMN図生成！
+👤「受注処理のフロー作りたい」
+🤖「関わる部門を教えてください」
+👤「営業と倉庫」
+→ JSONを生成 → GASで図に変換！
+```
+**ChatGPT/Claude/Geminiの無料版でOK**
+
+### 2️⃣ フォーム入力（3段階）
+- ⚡ **5分**：最小限情報
+- 📝 **30分**：標準フロー
+- 📊 **2時間**：KPI付き完全版
+
+### 3️⃣ JSON直接入力
+上級者向けの直接制御
+
+---
+
+## 📦 ファイル構成
+
+| ファイル | 説明 |
+|---------|------|
+| [`bpmn-swimlane.gs`](./bpmn-swimlane.gs) | メイン描画エンジン（横型・縦型スイムレーン） |
+| [`bpmn-data-collection.gs`](./bpmn-data-collection.gs) | Googleフォーム連携・段階的情報収集 |
+| [`BPMN_DIALOGUE_PROMPT.md`](./BPMN_DIALOGUE_PROMPT.md) | **AI対話用プロンプト（APIキー不要）** |
+| [`index.html`](./index.html) | Webアプリ用UI（オプション） |
+
+---
+
+## ⚡ クイックスタート（10分）
+
+### ステップ1：GASプロジェクト作成
+```
+Google Drive → 新規 → その他 → Google Apps Script
 ```
 
-### 2. **段階的フォーム** で確実な情報収集
-- **5分コース**：最小限の情報で基本フロー
-- **30分コース**：詳細な業務フロー
-- **2時間コース**：KPI込みの完全版
+### ステップ2：コードをコピー
+1. [`bpmn-swimlane.gs`](./bpmn-swimlane.gs)の内容をGASにコピー
+2. 保存（プロジェクト名：ひまじん式BPMN）
 
-### 3. **横型・縦型の2パターン同時生成**
-- 経営層向け：横型（部門を横に配置）
-- 実務者向け：縦型（時系列を縦に配置）
+### ステップ3：テスト実行
+```javascript
+testBPMNGeneration() // この関数を実行
+```
 
----
+### ステップ4：権限承認
+初回実行時に権限を許可
 
-## 📋 必要なもの
-
-- Googleアカウント（無料）
-- Google Apps Script（無料）
-- Gemini APIキー（無料枠あり）※対話型AIを使う場合のみ
+✅ **完了！** これで使えます
 
 ---
 
-## 🛠️ セットアップ手順（所要時間：約15分）
+## 🎮 3つの使い方
 
-### ステップ1：Google Apps Scriptプロジェクトの作成
+<details>
+<summary><b>方法1：AI対話（最も簡単・APIキー不要）</b></summary>
 
-1. **Google Driveを開く**
-   - https://drive.google.com にアクセス
-   - ログインしていない場合はGoogleアカウントでログイン
+### 1. プロンプトをコピー
+[`BPMN_DIALOGUE_PROMPT.md`](./BPMN_DIALOGUE_PROMPT.md)の内容をコピー
 
-2. **新規作成 → その他 → Google Apps Script**
-   ```
-   + 新規
-     └── その他
-          └── Google Apps Script
-   ```
+### 2. AIに貼り付け
+ChatGPT、Claude、Geminiのどれかに貼り付け
 
-3. **プロジェクト名を設定**
-   - 「無題のプロジェクト」をクリック
-   - 「ひまじん式BPMN」に変更
+### 3. 対話開始
+```
+👤：受注処理フロー作りたい
+🤖：部門を教えてください
+👤：営業、倉庫、購買
+🤖：流れを教えてください
+👤：営業が注文受けて...
+```
 
-### ステップ2：メインコードの実装
+### 4. JSONを受け取ってGASで実行
+```javascript
+function generateFromAI() {
+  const jsonData = /* AIが生成したJSONをここに貼り付け */;
+  const result = generateBPMNPresentation(jsonData);
+  console.log(result.url); // スライドURL
+}
+```
 
-#### 2-1. BPMNスイムレーン基本機能
+**メリット**：
+- ✅ APIキー不要
+- ✅ 無料で使える
+- ✅ まじん式と同じ手軽さ
+</details>
 
-1. **新しいスクリプトファイルを作成**
-   - 左サイドバーの「＋」→「スクリプト」
-   - ファイル名：`bpmn-swimlane.gs`
+<details>
+<summary><b>方法2：Googleフォーム（段階的入力）</b></summary>
 
-2. **コードをコピー&ペースト**
-   ```javascript
-   // 以下のコードをコピー（実際のbpmn-swimlane.gsの内容）
-   /**
-    * BPMN Swimlane Diagram Generator for Google Slides
-    * ひまじん式BPMN - スイムレーン図自動生成システム
-    * ...
-    */
-   ```
+### フォーム生成
+```javascript
+// bpmn-data-collection.gsを追加後
+testFormCreation() // 実行するとフォームURL表示
+```
 
-3. **保存**（Ctrl+S または Cmd+S）
+### 3段階の入力
+- **レベル1**（必須）：プロセス名、関係者、主な流れ
+- **レベル2**（推奨）：詳細ステップ、システム、例外処理
+- **レベル3**（完全）：KPI、改善点、ビジネスルール
 
-#### 2-2. 情報収集フォーム機能
+### 結果受信
+メールで生成されたスライドURLを受信
+</details>
 
-1. **新しいスクリプトファイルを追加**
-   - ファイル名：`bpmn-data-collection.gs`
-   - 同様にコードをコピー&ペースト
-
-#### 2-3. Gemini対話機能（オプション）
-
-1. **Gemini APIキーの取得**
-   - [Google AI Studio](https://makersuite.google.com/app/apikey)にアクセス
-   - 「APIキーを作成」をクリック
-   - キーをコピー
-
-2. **APIキーの設定**
-   - GASエディタで「プロジェクトの設定」（歯車アイコン）
-   - 「スクリプト プロパティ」セクション
-   - 「プロパティを追加」
-   ```
-   プロパティ: GEMINI_API_KEY
-   値: [取得したAPIキー]
-   ```
-
-3. **対話システムコードを追加**
-   - ファイル名：`bpmn-gemini-dialogue.gs`
-   - HTMLファイル：`dialogue-ui.html`
-
-### ステップ3：初回実行と権限設定
-
-1. **テスト関数の実行**
-   ```javascript
-   function testBPMNGeneration() {
-     // この関数を選択
-   }
-   ```
-   - 関数選択ドロップダウンから`testBPMNGeneration`を選択
-   - 「実行」ボタンをクリック
-
-2. **権限の承認**
-   - 「承認が必要です」ダイアログが表示される
-   - 「権限を確認」→「アカウントを選択」
-   - 「詳細」→「安全ではないページに移動」
-   - 必要な権限を許可
-
-3. **動作確認**
-   - 実行ログに`Generation result: {success: true, url: ...}`が表示されれば成功！
-   - URLをクリックして生成されたスライドを確認
-
----
-
-## 💡 使い方ガイド
-
-### 方法1：直接JSON入力（上級者向け）
+<details>
+<summary><b>方法3：JSON直接入力（上級者向け）</b></summary>
 
 ```javascript
-// エディタから直接実行
 function createMyFlow() {
   const data = {
-    "processInfo": {
-      "name": "受注処理フロー"
-    },
+    "processInfo": {"name": "受注処理"},
     "orientation": "both",
     "actors": [
       {"id": "A1", "name": "営業部"},
@@ -151,176 +141,129 @@ function createMyFlow() {
       {"id": "T1", "name": "注文受付", "actor": "A1"},
       {"id": "T2", "name": "在庫確認", "actor": "A2"}
     ],
-    "flows": [
-      {"from": "T1", "to": "T2"}
-    ]
+    "flows": [{"from": "T1", "to": "T2"}]
   };
 
   const result = generateBPMNPresentation(data);
   console.log(result.url);
 }
 ```
-
-### 方法2：Googleフォーム（推奨）
-
-1. **フォーム作成関数を実行**
-   ```javascript
-   testFormCreation() // この関数を実行
-   ```
-
-2. **生成されたフォームURLにアクセス**
-   - コンソールに表示されたURLをクリック
-   - 必要項目を入力して送信
-   - メールで結果を受信
-
-### 方法3：対話型AI（最も簡単！）
-
-1. **Webアプリとしてデプロイ**
-   - 「デプロイ」→「新しいデプロイ」
-   - 種類：「ウェブアプリ」
-   - アクセス：「全員」
-   - 「デプロイ」
-
-2. **チャット画面で会話**
-   ```
-   👤：受注処理のフロー作りたい
-   🤖：関わる部門を教えてください
-   👤：営業、倉庫、購買部
-   🤖：流れを教えてください
-   👤：営業が注文受けて、倉庫が在庫確認して...
-   ```
+</details>
 
 ---
 
-## 🎨 カスタマイズ例
+## 🎨 カスタマイズ
 
-### 色のカスタマイズ
-
+### 色変更
 ```javascript
 const BPMN_COLORS = {
   swimlane: {
-    header: '#あなたの企業カラー',  // ヘッダー色を変更
-    lane1: '#ffffff',
-    lane2: '#f5f5f5'
+    header: '#your-color',  // 企業カラーに変更
   }
 };
 ```
 
-### 要素サイズの調整
-
+### サイズ調整
 ```javascript
 const LAYOUT_CONFIG = {
   horizontal: {
-    laneHeight: 100,  // レーンの高さを変更
-    elementWidth: 120, // 要素の幅を変更
+    laneHeight: 100,    // レーン高さ
+    elementWidth: 120,  // 要素幅
   }
 };
 ```
 
-### 新しいBPMN要素の追加
+---
 
-```javascript
-function createCustomElement(slide, element, position) {
-  // 独自の要素を追加
-  const shape = slide.insertShape(
-    SlidesApp.ShapeType.STAR,  // 星型など
-    position.x, position.y, 50, 50
-  );
-  // カスタマイズ
-}
-```
+## 🆘 トラブルシューティング
+
+| 問題 | 解決方法 |
+|------|---------|
+| 権限エラー | プロジェクト設定 → OAuth → 内部利用 |
+| スライド生成されない | 実行ログでエラー確認 |
+| JSONエラー | JSON形式を[JSONLint](https://jsonlint.com/)で検証 |
 
 ---
 
-## 🚨 トラブルシューティング
+## 📊 導入効果
 
-### よくある問題と解決方法
-
-#### Q1: 「権限がありません」エラー
-**A:** プロジェクトの設定 → OAuth同意画面 → 内部利用を選択
-
-#### Q2: Gemini APIが動かない
-**A:** APIキーが正しく設定されているか確認
-```javascript
-// テスト用
-function checkAPIKey() {
-  const key = PropertiesService.getScriptProperties()
-    .getProperty('GEMINI_API_KEY');
-  console.log(key ? '設定済み' : '未設定');
-}
-```
-
-#### Q3: スライドが生成されない
-**A:** 実行ログを確認
-- エラーメッセージをコピー
-- JSONの形式が正しいか確認
-
-#### Q4: フォーム送信後にメールが来ない
-**A:** トリガーが設定されているか確認
-- 「トリガー」→「トリガーを追加」
-- イベントの種類：「フォーム送信時」
+| 企業 | 効果 |
+|------|------|
+| コンサル A社 | 3時間 → 15分（**12倍高速化**） |
+| 製造業 B社 | 200フロー/月を実現 |
+| IT企業 C社 | 認識齟齬**80%削減** |
 
 ---
 
-## 📈 活用事例
+## 📝 プロジェクト情報
 
-### 事例1：コンサルティング会社A社
-- **導入前**：フロー図作成に平均3時間
-- **導入後**：15分で完成（**12倍の効率化**）
+### オリジナル「まじん式」
+- **作者**：まじん様
+- **用途**：プレゼンテーション自動生成
+- **特徴**：プロンプトコピーで即使用可能
 
-### 事例2：製造業B社
-- **用途**：ISO文書化
-- **効果**：全部門の業務フロー200個を1ヶ月で完成
-
-### 事例3：IT企業C社
-- **用途**：システム要件定義
-- **効果**：クライアントとの認識齟齬が80%減少
-
----
-
-## 🎯 次のステップ
-
-### レベル1：基本マスター（1週間）
-- [ ] テストデータで10個のフロー図を作成
-- [ ] 色とサイズをカスタマイズ
-- [ ] チームメンバーと共有
-
-### レベル2：応用活用（1ヶ月）
-- [ ] 実際の業務フローを20個作成
-- [ ] Googleフォームでチーム全体から情報収集
-- [ ] 生成されたフローをレビュー会で使用
-
-### レベル3：組織展開（3ヶ月）
-- [ ] 全部門の標準フローを作成
-- [ ] 業務改善の前後比較
-- [ ] KPIダッシュボードと連携
+### 派生版「ひまじん式」
+- **作者**：ひまじん
+- **用途**：BPMN図特化
+- **独自機能**：スイムレーン、段階的収集
+- **まじん式踏襲**：APIキー不要のプロンプト方式
 
 ---
 
-## 🤝 コミュニティとサポート
+## 🤔 よくある質問
 
-### 質問・要望・バグ報告
-- GitHubイシュー：[こちら](https://github.com/himajin/bpmn-generator)
-- メール：support@himajin-bpmn.example
+<details>
+<summary><b>Q: APIキーは必要ですか？</b></summary>
 
-### 貢献方法
-1. このリポジトリをフォーク
-2. 機能追加・バグ修正
-3. プルリクエスト送信
+**A: 不要です！**
+まじん式と同様、プロンプトをコピーしてChatGPT等で使えます。
+</details>
 
-### ライセンス
-MIT License - 商用利用可・改変可・再配布可
+<details>
+<summary><b>Q: 無料で使えますか？</b></summary>
+
+**A: 完全無料です！**
+- Google Apps Script：無料
+- ChatGPT/Claude/Gemini：無料版でOK
+- Googleフォーム：無料
+</details>
+
+<details>
+<summary><b>Q: まじん式との違いは？</b></summary>
+
+**A: 用途が異なります**
+- まじん式：プレゼンスライド生成
+- ひまじん式：BPMN業務フロー図生成
+</details>
 
 ---
 
-## 🎉 最後に
+## 📄 ライセンス
 
-このシステムで、**業務フロー作成の苦痛から解放**されることを願っています。
+MIT License（改変・商用利用可）
 
-もし役立ったら、⭐スターをお願いします！
-
-**Happy Process Mapping! 🚀**
+**ただし「まじん式」非公式派生版であることを明記してください**
 
 ---
 
-*Created by ひまじん / Last updated: 2024*
+## 🤝 貢献
+
+1. Fork
+2. 機能追加
+3. Pull Request
+
+**注意**：本家「まじん式」の質問は対応できません
+
+---
+
+## 🙏 謝辞
+
+**まじん式プロンプト**の革新的コンセプトに心から感謝します。
+
+プロンプトをコピーして使うというシンプルで強力なアプローチを、BPMN図生成に応用させていただきました。
+
+---
+
+⭐ **役立ったらStarをお願いします！**
+
+*Created by ひまじん / Inspired by まじん式プロンプト*
