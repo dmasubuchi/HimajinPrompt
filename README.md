@@ -95,9 +95,6 @@ fill.getColor().setRgbColor(0, 172, 193);
 ### AI対話でJSON生成
 [`BPMN_DIALOGUE_PROMPT.md`](./BPMN_DIALOGUE_PROMPT.md)をChatGPT/Claudeにコピペ
 
-### 見た目を改善
-[`json-input.html`](./json-input.html)を使用（サンプルボタン付き）
-
 ---
 
 ## 🙏 謝辞
