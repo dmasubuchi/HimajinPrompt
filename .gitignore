@@ -1,0 +1,50 @@
+# Development and instruction files
+git-ignore/
+CLAUDE.md
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+
+# Editor
+.vscode/
+.idea/
+*~
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Environment and config
+.env
+.env.local
+config.js
+*credentials.json
+*.key
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+temp/
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Google Apps Script clasp files (if sensitive)
+.clasp.json
+.clasprc.json
+
+# Build outputs
+dist/
+build/
+out/
