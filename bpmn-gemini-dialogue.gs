@@ -528,7 +528,7 @@ function saveSession(session) {
 // Webアプリケーション用エンドポイント
 // ========================================
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('dialogue-ui')
+  return HtmlService.createHtmlOutputFromFile('index')
     .setTitle('ひまじん式BPMN対話システム')
     .setWidth(800)
     .setHeight(600);
