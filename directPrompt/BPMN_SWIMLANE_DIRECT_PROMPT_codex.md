@@ -36,17 +36,30 @@
 - 段落整列APIの確認と修正:
   - 誤: `.getParagraphStyle().setAlignment(...)`
   - 正: `.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER)` 等
+- 段落スタイル取得の誤用回避:
+  - 誤: `.getParagraphStyle(0)` のようなインデックス指定
+  - 正: `.getParagraphStyle()` のみを使用
 - 枠線スタイル設定のチェーン禁止:
   - 誤: `.getBorder().setWeight(1).setSolidFill('#e0e0e0')`
   - 正: `.getBorder().setWeight(1); .getBorder().getLineFill().setSolidFill('#e0e0e0');`
 - 背景色の設定は以下のいずれかのみ:
   - 推奨: `slide.getBackground().setSolidFill('#00acc1')`
   - 代替: スライド全面の矩形を追加→`getFill().setSolidFill(..)`→`setTransparent()`→`sendToBack()`
+- 透明化APIの使用禁止:
+  - 禁止: `.getLineFill().setTransparent()` や `.setTransparent()` による無効化
+  - 代替: 枠を消す場合は `.getBorder().setWeight(0)` を使用
 - 直線の色設定は `line.getLineFill().setSolidFill(color)`、太さは `line.setWeight(n)` を用いる。
 - 上記に反するコードが生成された場合、返答前に自動で修正してから出力する。
- - 矢印ヘッド設定は互換性に注意:
-   - 推奨: 矢印ヘッドの設定は省略（線のみ）。
-   - どうしても必要な場合は `try { line.setEndArrow(SlidesApp.ArrowStyle.STEALTH_ARROW); } catch (e) { /* omit */ }` のようにガードし、`.setEndArrowStyle(...)` は使用しない。
+- 矢印ヘッド設定は互換性に注意:
+  - 推奨: 矢印ヘッドの設定は省略（線のみ）。
+  - どうしても必要な場合は `try { line.setEndArrow(SlidesApp.ArrowStyle.STEALTH_ARROW); } catch (e) { /* omit */ }` のようにガードし、`.setEndArrowStyle(...)` は使用しない。
+- ページ寸法の取得はスライドから:
+  - 使用: `const w = slide.getPageWidth(); const h = slide.getPageHeight();`
+  - 禁止: `presentation.getPageWidth()` 等、プレゼンテーションからの取得
+- オプションAPIは保護付きで使用:
+  - 例: `ROUND_RECTANGLE` の角丸半径は `try { shape.setRadius(n); } catch (e) {}` のように包む
+- 返却値の一貫性:
+  - `createBPMNPresentation` は必ず `{ success: true, url }` または `{ success: false, error }` を返す
 
 ## 出力フォーマット
 - 余計な説明文を入れず、完成したコードのみを1つのコードブロックで返してください。
